@@ -1,1 +1,1 @@
-sarp ın rastegele gercek projesi
+sarp ın rastgele gercekler projesi
