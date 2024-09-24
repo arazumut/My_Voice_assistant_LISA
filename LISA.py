@@ -104,6 +104,7 @@ def get_weather(city):
 
     response = requests.get(complete_url)
     data = response.json()
+
     
 
     if data["cod"] != "404":
