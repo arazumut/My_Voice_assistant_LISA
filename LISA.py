@@ -95,6 +95,7 @@ def get_time():
     now = datetime.datetime.now()
     current_time = now.strftime("%H:%M:%S")
     speak(f"Saat şu anda {current_time}")
+    speak(f"saat burada yazılı")
 
 def get_weather(city):
     """Şehrin hava durumu bilgisini alır."""
