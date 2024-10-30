@@ -4,12 +4,12 @@ import datetime
 import requests
 import os
 import platform
-import subprocess #pip install subprocess
-import random # pip install random
-import webbrowser #PİP İNSTALL WEBBROWSER
+import subprocess 
+import random 
+import webbrowser 
 from googletrans import Translator
 
-# Metni sese dönüştürmek için pyttsx3 motorunu ayarlıyoruz
+
 engine = pyttsx3.init()
 
 def speak(text):
