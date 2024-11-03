@@ -52,7 +52,7 @@ def perform_calculation():
         else:
             speak("Geçersiz bir işlem söylediniz. Lütfen toplama, çıkarma, çarpma veya bölme işlemlerinden birini söyleyin.")
 
-def get_audio():
+def get_audio()
     """Mikrofon aracılığıyla sesli komutları almak ve metne dönüştürmek."""
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
