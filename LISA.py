@@ -27,6 +27,7 @@ def perform_calculation():
         try:
             num1 = float(num1)
             break
+            
         except ValueError:
             speak("Bu geçerli bir sayı değil. Lütfen tekrar söyleyin.")
     
