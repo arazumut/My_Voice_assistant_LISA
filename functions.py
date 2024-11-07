@@ -117,7 +117,8 @@ def adjust_volume():
     """Kullanıcıdan ses seviyesi isteyip sesi ayarlayan fonksiyon."""
     speak("Sesi ne kadar yükselteyim? Yüzde olarak söyleyin.")
     volume_input = get_audio()
-    
+
+
     try:
         volume = float(volume_input.replace("%", "").strip()) / 100.0
         
