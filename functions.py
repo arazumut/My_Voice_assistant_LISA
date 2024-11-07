@@ -7,6 +7,8 @@ def perform_calculation():
     """Kullanıcıdan iki sayı alıp hangi işlemi yapmak istediğini sorar ve sonucu döner."""
     
     while True:
+
+    #Produced By K. Umut Araz
         speak("Birinci sayıyı söyleyin.")
         num1 = get_audio()
 
