@@ -10,6 +10,7 @@ speak(text) fonksiyonu, aldığı metni sesli olarak kullanıcının duymasını
 Sesli Komut Alma (Speech Recognition): speech_recognition kütüphanesi kullanarak, mikrofon aracılığıyla kullanıcının söylediği kelimeler metne dönüştürülüyor.
 
 
+
 get_audio() fonksiyonu, mikrofonu dinleyerek kullanıcının söylediği kelimeleri algılar ve metne dönüştürür.
 Hesaplama Yapma: perform_calculation() fonksiyonu, kullanıcının verdiği iki sayıyı toplama, çıkarma, çarpma veya bölme gibi işlemler yaparak sonucu sesli olarak bildiriyor.
 
