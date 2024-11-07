@@ -30,6 +30,7 @@ Nasıl Çalıştırılır:
 Kurulum Gereksinimleri:
 
 
+
 pyttsx3, speech_recognition, openai, ve requests gibi kütüphanelerin yüklü olması gerekir. Bunları şu komutla yükleyebilirsiniz:
  
 
