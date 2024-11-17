@@ -6,7 +6,6 @@ Sesli asistanım olan Lisa, kullanıcının sesli komutlarını algılayarak çe
 Kodun Temel İşlevleri:
 Sesli Yanıt Verme (Text-to-Speech): pyttsx3 kütüphanesi kullanılarak, asistan kullanıcıya cevap verirken metni sesli okuyor.
 
-
 speak(text) fonksiyonu, aldığı metni sesli olarak kullanıcının duymasını sağlıyor.
 Sesli Komut Alma (Speech Recognition): speech_recognition kütüphanesi kullanarak, mikrofon aracılığıyla kullanıcının söylediği kelimeler metne dönüştürülüyor.
 
