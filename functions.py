@@ -19,6 +19,7 @@ def perform_calculation():
             speak("Bu geçerli bir sayı değil. Lütfen tekrar söyleyin.")
 
     
+    
     while True:
         speak("İkinci sayıyı söyleyin.")
         num2 = get_audio()
