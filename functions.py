@@ -35,6 +35,7 @@ def perform_calculation():
 
         if "toplama" in operation:
             result = num1 + num2
+            
             speak(f"Sonuç {result}")
             break
         elif "çıkarma" in operation:
