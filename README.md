@@ -16,6 +16,7 @@ Hava Durumu Bilgisi Alma: get_weather(city) fonksiyonu, OpenWeatherMap API'sini 
 
 Tarayıcı Açma ve Uygulama Açma: Tarayıcı açma ve belirli sitelere yönlendirme işlevi sunar (YouTube, LinkedIn, GitHub). Ayrıca open_application(app_name) fonksiyonu ile not defteri veya hesap makinesi gibi uygulamaları açar.
 
+
 Yapay Zeka ile Sohbet: chat_with_ai() fonksiyonu OpenAI'nin ChatGPT modelini kullanarak kullanıcının sorularına yanıt verir.
 
 Şaka Yapma, Gerçek Söyleme ve Müzik Çalma: Kullanıcı isteğine göre rastgele bir şaka yapabilir, eğlenceli bir bilgi verebilir veya bilgisayarda yüklü olan müzikleri çalabilir.
