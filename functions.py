@@ -7,6 +7,8 @@ import platform
 import webbrowser
 import random
 
+#Produced By K. Umut Araz
+
 engine = pyttsx3.init()
 
 # Türkçe sesi seçin
