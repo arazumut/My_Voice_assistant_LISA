@@ -1,215 +1,217 @@
-def speak(text):
+import pyttsx3
+import speech_recognition as sr
+import datetime
+import requests
+import os
+import platform
+import webbrowser
+import random
+
+engine = pyttsx3.init()
+
+# Türkçe sesi seçin
+voices = engine.getProperty('voices')
+for voice in voices:
+    if 'tr' in voice.id or 'Turkish' in voice.name:  # Türkçe bir ses bulun
+        engine.setProperty('voice', voice.id)
+        break
+
+def konus(metin):
     """Metni sesli olarak okumak için fonksiyon."""
-    engine.say(text)
+    engine.say(metin)
     engine.runAndWait()
 
-def perform_calculation():
+def hesaplama_yap():
     """Kullanıcıdan iki sayı alıp hangi işlemi yapmak istediğini sorar ve sonucu döner."""
-    
     while True:
-
-    #Produced By K. Umut Araz
-        speak("Birinci sayıyı söyleyin.")
-        num1 = get_audio()
-
+        konus("Birinci sayıyı söyleyin.")
+        sayi1 = ses_al()
         try:
-            num1 = float(num1)
+            sayi1 = float(sayi1)
             break
         except ValueError:
-            speak("Bu geçerli bir sayı değil. Lütfen tekrar söyleyin.")
-
-    
+            konus("Bu geçerli bir sayı değil. Lütfen tekrar söyleyin.")
     
     while True:
-        speak("İkinci sayıyı söyleyin.")
-        num2 = get_audio()
-
+        konus("İkinci sayıyı söyleyin.")
+        sayi2 = ses_al()
         try:
-            num2 = float(num2)
+            sayi2 = float(sayi2)
             break
         except ValueError:
-            speak("Bu geçerli bir sayı değil. Lütfen tekrar söyleyin.")
+            konus("Bu geçerli bir sayı değil. Lütfen tekrar söyleyin.")
 
     while True:
-        speak("Hangi işlemi yapmak istiyorsunuz? Toplama, çıkarma, çarpma veya bölme?")
-        operation = get_audio()
-
-        if "toplama" in operation:
-            result = num1 + num2
-            
-            speak(f"Sonuç {result}")
+        konus("Hangi işlemi yapmak istiyorsunuz? Toplama, çıkarma, çarpma veya bölme?")
+        islem = ses_al()
+        if "toplama" in islem:
+            sonuc = sayi1 + sayi2
+            konus(f"Sonuç {sonuc}")
             break
-        elif "çıkarma" in operation:
-            result = num1 - num2
-            speak(f"Sonuç {result}")
+        elif "çıkarma" in islem:
+            sonuc = sayi1 - sayi2
+            konus(f"Sonuç {sonuc}")
             break
-        elif "çarpma" in operation:
-            result = num1 * num2
-            speak(f"Sonuç {result}")
+        elif "çarpma" in islem:
+            sonuc = sayi1 * sayi2
+            konus(f"Sonuç {sonuc}")
             break
-        elif "bölme" in operation:
-            if num2 == 0:
-                speak("Bir sayıyı sıfıra bölemezsiniz. Lütfen yeni bir sayı söyleyin.")
+        elif "bölme" in islem:
+            if sayi2 == 0:
+                konus("Bir sayıyı sıfıra bölemezsiniz. Lütfen yeni bir sayı söyleyin.")
             else:
-                result = num1 / num2
-                speak(f"Sonuç {result}")
+                sonuc = sayi1 / sayi2
+                konus(f"Sonuç {sonuc}")
                 break
         else:
-            speak("Geçersiz bir işlem söylediniz. Lütfen toplama, çıkarma, çarpma veya bölme işlemlerinden birini söyleyin.")
+            konus("Geçersiz bir işlem söylediniz. Lütfen toplama, çıkarma, çarpma veya bölme işlemlerinden birini söyleyin.")
 
-def get_audio()
+def ses_al():
     """Mikrofon aracılığıyla sesli komutları almak ve metne dönüştürmek."""
-    recognizer = sr.Recognizer()
-    with sr.Microphone() as source:
+    tanıyıcı = sr.Recognizer()
+    with sr.Microphone() as kaynak:
         print("Dinliyorum...")
-        recognizer.adjust_for_ambient_noise(source)  # Arka plan gürültüsünü azaltır
-        audio = recognizer.listen(source)
+        tanıyıcı.adjust_for_ambient_noise(kaynak)  # Arka plan gürültüsünü azaltır
+        ses = tanıyıcı.listen(kaynak)
         try:
-            command = recognizer.recognize_google(audio, language='tr-TR')  # Türkçe tanıma
-            print(f"Siz: {command}")
-            return command.lower()
+            komut = tanıyıcı.recognize_google(ses, language='tr-TR')  # Türkçe tanıma
+            print(f"Siz: {komut}")
+            return komut.lower()
         except sr.UnknownValueError:
-            speak("Anlayamadım. Lütfen tekrar edin.")
+            konus("Anlayamadım. Lütfen tekrar edin.")
             return ""
         except sr.RequestError:
-            speak("Google API'ye bağlanılamadı.")
+            konus("Google API'ye bağlanılamadı.")
             return ""
 
-def get_time():
+def saat_al():
     """Tarih ve saat bilgisini geri döndürür."""
-    now = datetime.datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    speak(f"Saat şu anda {current_time}")
+    simdi = datetime.datetime.now()
+    mevcut_saat = simdi.strftime("%H:%M:%S")
+    konus(f"Saat şu anda {mevcut_saat}")
 
-def get_weather(city):
+def hava_durumu(sehir):
     """Şehrin hava durumu bilgisini alır."""
-    api_key = "cfc113e6ed1c17425febb1dbccc2dd40"  # Buraya kendi OpenWeatherMap API anahtarınızı ekleyin
-    base_url = "http://api.openweathermap.org/data/2.5/weather?"
-    complete_url = f"{base_url}q={city}&appid={api_key}&units=metric&lang=tr"
+    api_anahtari = "cfc113e6ed1c17425febb1dbccc2dd40"  # Buraya kendi OpenWeatherMap API anahtarınızı ekleyin
+    temel_url = "http://api.openweathermap.org/data/2.5/weather?"
+    tam_url = f"{temel_url}q={sehir}&appid={api_anahtari}&units=metric&lang=tr"
 
-    response = requests.get(complete_url)
-    data = response.json()
+    yanit = requests.get(tam_url)
+    veri = yanit.json()
 
-    if data["cod"] != "404":
-        main = data["main"]
-        temperature = main["temp"]
-        weather_desc = data["weather"][0]["description"]
-        speak(f"{city} şehrinde hava {weather_desc} ve sıcaklık {temperature} derece.")
+    if veri["cod"] != "404":
+        ana = veri["main"]
+        sicaklik = ana["temp"]
+        hava_aciklama = veri["weather"][0]["description"]
+        konus(f"{sehir} şehrinde hava {hava_aciklama} ve sıcaklık {sicaklik} derece.")
     else:
-        speak("Şehir bulunamadı.")
+        konus("Şehir bulunamadı.")
 
-def open_browser():
+def tarayici_ac():
     """Edge tarayıcısını açar."""
-    browser_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
-
-    if os.path.exists(browser_path):
-        os.startfile(browser_path)
+    tarayici_yolu = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+    if os.path.exists(tarayici_yolu):
+        os.startfile(tarayici_yolu)
     else:
-        speak("Edge tarayıcısı bulunamadı.")
+        konus("Edge tarayıcısı bulunamadı.")
 
-        
-
-def sleep_computer():
+def bilgisayari_uyut():
     """Bilgisayarı uyku moduna geçirir."""
-    speak("Bilgisayarınızı uyku moduna geçiriyorum.")
+    konus("Bilgisayarınızı uyku moduna geçiriyorum.")
     if platform.system() == "Windows":
         os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
 
-def adjust_volume():
+def ses_ayarla():
     """Kullanıcıdan ses seviyesi isteyip sesi ayarlayan fonksiyon."""
-    speak("Sesi ne kadar yükselteyim? Yüzde olarak söyleyin.")
-    volume_input = get_audio()
-
-
+    konus("Sesi ne kadar yükselteyim? Yüzde olarak söyleyin.")
+    ses_seviyesi = ses_al()
     try:
-        volume = float(volume_input.replace("%", "").strip()) / 100.0
-        
-        if 0 <= volume <= 1:
-            engine.setProperty('volume', volume)
-            speak(f"Ses seviyesi {int(volume * 100)} olarak ayarlandı.")
+        seviye = float(ses_seviyesi.replace("%", "").strip()) / 100.0
+        if 0 <= seviye <= 1:
+            engine.setProperty('volume', seviye)
+            konus(f"Ses seviyesi {int(seviye * 100)} olarak ayarlandı.")
         else:
-            speak("Lütfen 0 ile 100 arasında bir değer söyleyin.")
-    
+            konus("Lütfen 0 ile 100 arasında bir değer söyleyin.")
     except ValueError:
-        speak("Sesi anlamadım, lütfen tekrar edin.")
+        konus("Sesi anlamadım, lütfen tekrar edin.")
 
 # Yeni Özellikler:
 
-def open_youtube():
+def youtube_ac():
     """YouTube'u açar."""
-    speak("YouTube'u açıyorum.")
+    konus("YouTube'u açıyorum.")
     webbrowser.open("https://www.youtube.com")
 
-def open_linkedin():
+def linkedin_ac():
     """Linkedin'i açar."""
-    speak("Linkedin'i açıyorum.")
+    konus("Linkedin'i açıyorum.")
     webbrowser.open("https://www.linkedin.com")
 
-def open_github():
+def github_ac():
     """Github'ı açar."""
-    speak("Github'ı açıyorum.")
-    webbrowser.open("https://www.github.com")       
+    konus("Github'ı açıyorum.")
+    webbrowser.open("https://www.github.com")
 
-def tell_joke():
+def saka_yap():
     """Rastgele bir şaka yapar."""
-    jokes = [
+    sakalar = [
         "Bilgisayar korsanları neden ceket giyer? Çünkü çok fazla verileri vardır!",
         "Matematik kitabı neden üzgündü? Çünkü çok fazla problemi vardı.",
         "Bir mantar neden partide çok popüler? Çünkü o tam bir fungi!"
     ]
-    speak(random.choice(jokes))
+    konus(random.choice(sakalar))
 
-def play_music():
+def muzik_cal():
     """Bilgisayarda müzik çalar."""
-    music_folder = r"C:\Users\Public\Music"  # Kendi müzik dosya yolunu belirle
-    speak("Müziği çalıyorum.")
-    songs = os.listdir(music_folder)
-    if songs:
-        random_song = os.path.join(music_folder, random.choice(songs))
-        os.startfile(random_song)
+    muzik_klasoru = r"C:\Users\Public\Music"  # Kendi müzik dosya yolunu belirle
+    konus("Müziği çalıyorum.")
+    sarkilar = os.listdir(muzik_klasoru)
+    if sarkilar:
+        rastgele_sarki = os.path.join(muzik_klasoru, random.choice(sarkilar))
+        os.startfile(rastgele_sarki)
     else:
-        speak("Müzik dosyası bulunamadı.")
+        konus("Müzik dosyası bulunamadı.")
 
-def get_news():
+def haberler_al():
     """Son dakika haberleri getirir."""
-    speak("Son dakika haberlerini getiriyorum.")
+    konus("Son dakika haberlerini getiriyorum.")
     webbrowser.open("https://www.bbc.com/news")
 
-def search_google():
+def google_ara():
     """Google'da arama yapar."""
-    speak("Ne aramak istiyorsunuz?")
-    query = get_audio()
-    url = f"https://www.google.com/search?q={query}"
+    konus("Ne aramak istiyorsunuz?")
+    sorgu = ses_al()
+    url = f"https://www.google.com/search?q={sorgu}"
     webbrowser.open(url)
-    speak(f"{query} için Google'da arama yapıyorum.")
+    konus(f"{sorgu} için Google'da arama yapıyorum.")
 
-def generate_code(task):
+def kod_olustur(gorev):
     """Kullanıcının verdiği göreve göre Python kodu oluşturur."""
-    if "toplama" in task:
-        code = """
+    if "toplama" in gorev:
+        kod = """
 def toplama(a, b):
     return a + b
 
 print(toplama(10, 20))  # Örnek kullanım
 """
-        return code
-    elif "çarpma" in task:
-        code = """
+        return kod
+    elif "çarpma" in gorev:
+        kod = """
 def carpma(a, b):
     return a * b
 
 print(carpma(10, 20))  # Örnek kullanım
 """
-        return code
+        return kod
     else:
         return "Bu görevi gerçekleştirecek kod bulunamadı."
 
-def write_code_to_file(code, filename="generated_code.py"):
+def kodu_dosyaya_yaz(kod, dosya_adi="uretilen_kod.py"):
     """Üretilen kodu bir dosyaya yazar."""
-    with open(filename, 'w') as file:
-        file.write(code)
-    speak(f"Kod {filename} dosyasına kaydedildi.")
-    print(f"Kod {filename} dosyasına kaydedildi.")
+    with open(dosya_adi, 'w') as dosya:
+        dosya.write(kod)
+    konus(f"Kod {dosya_adi} dosyasına kaydedildi.")
+    print(f"Kod {dosya_adi} dosyasına kaydedildi.")
 
-def assistant():
-    speak("Size nasıl yardımcı olabilirim?")
+def asistan():
+    konus("Size nasıl yardımcı olabilirim?")
